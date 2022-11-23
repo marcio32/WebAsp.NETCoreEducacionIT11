@@ -4,7 +4,7 @@ namespace Web.Controllers
 {
     public class ProductosController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Productos()
         {
             return View();
         }

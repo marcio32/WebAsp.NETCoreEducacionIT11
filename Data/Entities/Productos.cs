@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace Data.Entities
 {
-    internal class Productos
+    public class Productos
     {
+        public int Id { get; set; }
+        public string Descripcion { get; set; }
+        public decimal Precio { get; set; }
+        public int Stock { get; set; }
+        public string? Imagen { get; set; }
+        public bool Activo { get; set; }
     }
 }
