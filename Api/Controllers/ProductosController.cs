@@ -23,5 +23,12 @@ namespace Api.Controllers
             return await _services.BuscarLista();
         }
 
+        [HttpPost]
+        [Route("GuardarProducto")]
+        public async Task<List<Productos>> GuardarProducto(Productos producto)
+        {
+            return await _services.Guardar(producto);
+        }
+
     }
 }

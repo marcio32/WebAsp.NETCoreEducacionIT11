@@ -10,7 +10,7 @@ namespace Api.Services
 
         public ProductosServices()
         {
-            _manager =  new ProductosManager();
+            _manager = new ProductosManager();
         }
         public async Task<List<Productos>> BuscarLista()
         {
@@ -18,20 +18,28 @@ namespace Api.Services
             {
                 return await _manager.BuscarLista();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
         }
 
-        public Task<List<Productos>> Eliminar()
+        public Task<List<Productos>> Eliminar(Productos producto)
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<Productos>> Guardar()
+        public async Task<List<Productos>> Guardar(Productos producto)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var resultado = await _manager.Guardar(producto, producto.Id);
+                return await _manager.BuscarLista();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }
