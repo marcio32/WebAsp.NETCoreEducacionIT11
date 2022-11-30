@@ -24,9 +24,14 @@ namespace Data.Managers
             return respuesta;
         }
 
-        public override Task<bool> Eliminar(Productos modelo)
+        public override async Task<bool> Eliminar(Productos modelo)
         {
-            throw new NotImplementedException();
+            contextoSingleton.Entry(modelo).State = EntityState.Modified;
+
+            var resultado = await contextoSingleton.SaveChangesAsync() > 0;
+            contextoSingleton.Entry(modelo).State = EntityState.Detached;
+
+            return resultado;
         }
     }
 }

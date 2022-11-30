@@ -1,5 +1,7 @@
-﻿$(document).ready(function () {
-    $('#productos').DataTable({
+﻿var tablaProductos;
+
+$(document).ready(function () {
+    tablaProductos = $('#productos').DataTable({
         ajax: {
             url: 'https://localhost:7059/api/Productos/BuscarProductos',
             dataSrc: ""
@@ -74,4 +76,36 @@ function EditarProducto(data) {
 
         }
     });
+}
+
+function EliminarProducto(data) {
+    Swal.fire({
+        title: 'Estas Seguro?',
+        text: "Estas seguro que deseas eliminar el producto?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Eliminar!',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                type: "POST",
+                url: "/Productos/EliminarProducto",
+                data: JSON.stringify(data),
+                contentType: "application/json",
+                dataType: "html",
+                success: function (resultado) {
+                    Swal.fire(
+                        'Eliminado!',
+                        'El producto fue eliminado.',
+                        'success'
+                    )
+                    debugger
+                    tablaProductos.ajax.reload();
+                }
+            });
+        }
+    })
 }

@@ -56,5 +56,12 @@ namespace Web.Controllers
             var productos = baseApi.PostToApi("Productos/GuardarProducto", producto, "");
             return View("~/Views/Productos/Productos.cshtml");
         }
+
+        public IActionResult EliminarProducto([FromBody] Productos producto)
+        {
+            var baseApi = new BaseApi(_httpClient);
+            var productos = baseApi.PostToApi("Productos/EliminarProducto", producto, "");
+            return View("~/Views/Productos/Productos.cshtml");
+        }
     }
 }

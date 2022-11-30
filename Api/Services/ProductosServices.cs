@@ -24,17 +24,18 @@ namespace Api.Services
             }
         }
 
-        public Task<List<Productos>> Eliminar(Productos producto)
+        public async Task<bool> Eliminar(Productos producto)
         {
-            throw new NotImplementedException();
+            producto.Activo = false;
+            return await _manager.Eliminar(producto);
         }
 
-        public async Task<List<Productos>> Guardar(Productos producto)
+        public async Task<bool> Guardar(Productos producto)
         {
-            try
-            {
-                var resultado = await _manager.Guardar(producto, producto.Id);
-                return await _manager.BuscarLista();
+            try 
+            { 
+                return await _manager.Guardar(producto, producto.Id);
+               
             }
             catch (Exception ex)
             {

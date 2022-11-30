@@ -19,6 +19,8 @@
     <script src="~/lib/jquery-datatables/jquery.datatables.min.js"></script>
     <script src="~/lib/datatables-bootstrap5/dist/js/datatables.bootstrap5.min.js"></script>
     <script src="https://kit.fontawesome.com/f8fcaa487b.js" crossorigin="anonymous"></script>
+    <script src="~/lib/sweetalert2/sweetalert2.all.min.js"></script>
+    <script src="~/lib/moment/moment.min.js"></script>
 
     <div class="wrapper">
         <nav id="sidebar" class="sidebar js-sidebar">
@@ -39,13 +41,13 @@
                     </li>
 
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="#">
+                        <a class="sidebar-link" asp-controller="Usuarios" asp-action="Usuarios">
                         <i class="align-middle" data-feather="users"></i> <span class="align-middle">Usuarios</span>
                         </a>
                     </li>
 
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="#">
+                        <a class="sidebar-link" asp-controller="Roles" asp-action="Roles">
                         <i class="align-middle" data-feather="github"></i> <span class="align-middle">Roles</span>
                         </a>
                     </li>
@@ -69,7 +71,7 @@
                     </li>
 
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="#">
+                        <a class="sidebar-link" asp-controller="Login" asp-action="Login">
                         <i class="align-middle" data-feather="log-out"></i> <span class="align-middle">Cerrar Sesion</span>
                         </a>
                     </li>
