@@ -6,7 +6,35 @@ using System.Threading.Tasks;
 
 namespace Commons.Helpers
 {
-    internal class GenerateLogHelper
+    public class GenerateLogHelper
     {
+
+        public static async Task LogError(Exception ex, string modulo, string metodo = "")
+        {
+            try
+            {
+                var path = string.Format(@"C:\Logs\{0:dd-MM-yyyy}\{1}", DateTime.Now, modulo);
+
+                if(!Directory.Exists(path))
+                       Directory.CreateDirectory(path);
+
+                var  file = string.Format(@"{0}\{1:dd-MM-yyyy}", path, DateTime.Now);
+
+                var contenido = $"============================\n" +
+                                $"--------------{DateTime.Now:dd/MM/yyyy H:mm:ss}--------------\n" +
+                                $"Error: {ex.Message}\n" +
+                                $"Modulo: {modulo}\n" +
+                                $"Metodo: {metodo}\n" +
+                                $"Ubicacion: {ex.StackTrace}\n" +
+                                $"============================\n\n";
+
+                await File.AppendAllTextAsync(file, contenido);
+            }
+            catch (Exception exe)
+            {
+              
+            }
+
+        }
     }
 }

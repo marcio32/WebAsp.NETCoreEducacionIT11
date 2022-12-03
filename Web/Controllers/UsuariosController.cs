@@ -35,9 +35,10 @@ namespace Web.Controllers
 
             }
 
-            if(resultadoRoles != null)
+            if (resultadoRoles != null)
             {
                 var listaRoles = JsonConvert.DeserializeObject<List<Roles>>(resultadoRoles.Value.ToString());
+                
                 var listaItemsRoles = new List<SelectListItem>();
                 foreach (var item in listaRoles)
                 {

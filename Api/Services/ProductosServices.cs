@@ -1,4 +1,5 @@
 ﻿using Api.Interfaces;
+using Commons.Helpers;
 using Data.Entities;
 using Data.Managers;
 
@@ -20,6 +21,7 @@ namespace Api.Services
             }
             catch (Exception ex)
             {
+                GenerateLogHelper.LogError(ex, "Productos", "BuscarLista");
                 throw ex;
             }
         }
@@ -33,12 +35,14 @@ namespace Api.Services
         public async Task<bool> Guardar(Productos producto)
         {
             try 
-            { 
+            {
+
                 return await _manager.Guardar(producto, producto.Id);
-               
+                
             }
             catch (Exception ex)
             {
+                GenerateLogHelper.LogError(ex, "Productos", "Guardar");
                 throw ex;
             }
         }

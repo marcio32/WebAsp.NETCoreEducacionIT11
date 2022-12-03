@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Data.Entities
 {
-    internal class Servicios
+    public class Servicios
     {
+        public int Id { get; set; }
+        public string Nombre { get; set; }
+        public bool Activo { get; set; }
     }
 }

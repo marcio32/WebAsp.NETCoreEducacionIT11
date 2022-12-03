@@ -1,4 +1,5 @@
 ﻿using Api.Interfaces;
+using Commons.Helpers;
 using Data.Entities;
 using Data.Managers;
 
@@ -20,6 +21,7 @@ namespace Api.Services
             }
             catch (Exception ex)
             {
+                GenerateLogHelper.LogError(ex, "Roles", "BuscarLista");
                 throw ex;
             }
         }
@@ -39,6 +41,7 @@ namespace Api.Services
             }
             catch (Exception ex)
             {
+                GenerateLogHelper.LogError(ex, "Roles", "Guardar");
                 throw ex;
             }
         }

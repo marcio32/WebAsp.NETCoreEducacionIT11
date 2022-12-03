@@ -15,10 +15,10 @@ $(document).ready(function () {
                     return moment(data.fecha_Nacimiento).format("DD/MM/YYYY");
                 }, title: 'Fecha nacimiento' },
             { data: 'mail', title: 'Mail' },
-            { data: 'id_Rol', title: 'Rol' },
+            { data: 'roles.nombre', title: 'Rol' },
             {
                 data: function (data) {
-                    debugger
+                    console.log("roles", data)
                     return data.activo == true ? "Si" : "No";
                 }, title: 'Activo'
             },
