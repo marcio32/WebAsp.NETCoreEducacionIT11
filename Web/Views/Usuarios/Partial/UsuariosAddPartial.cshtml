@@ -36,9 +36,13 @@
                                 </div>
                             </div>
 
-
                             <div class="row">
                                  <div class="col-md-6 mt-1 mb-3" >
+                                    <label class="col-md-5 form-control-label">Contraseña</label>
+                            @Html.EditorFor(x=> x.Clave, new {htmlAttributes = new {@class = "col-md-8 form-control" } })
+                                </div>
+
+                                <div class="col-md-6 mt-1 mb-3" >
                                     <label class="col-md-2 form-control-label">Rol</label>
                            
                                         <select name="Id_Rol" id="Id_Rol" required class="col-md-9 form-control">
@@ -57,9 +61,13 @@
                                         </select>
                            
                                     </div>
+                            </div>
+
+
+                            <div class="row">
                                 <div class="col-md-6 mt-1 mb-3" >
                                     <label class="col-md-2 form-control-label">Activo</label>
-                            @Html.CheckBoxFor(x=> x.Activo, new {htmlAttributes = new {@class = "col-md-8 form-control" } })
+                                    @Html.CheckBoxFor(x=> x.Activo, new {htmlAttributes = new {@class = "col-md-8 form-control" } })
                                 </div>
                             </div>
                         </div>

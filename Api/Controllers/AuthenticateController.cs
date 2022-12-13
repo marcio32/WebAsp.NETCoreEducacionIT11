@@ -1,12 +1,37 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Commons.Helpers;
+using Data;
+using Data.Dto;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api.Controllers
 {
-    public class AuthenticateController : Controller
+    [ApiController]
+    [Route("api/[controller]")]
+    public class AuthenticateController : ControllerBase
     {
-        public IActionResult Index()
+        private static ApplicationDbContext contextIntance;
+        public AuthenticateController()
         {
-            return View();
+            contextIntance = new ApplicationDbContext();
         }
+
+        [HttpPost]
+        [Route("Login")]
+        public async Task<IActionResult> Login(LoginDto usuario)
+        {
+            usuario.Clave = EncryptHelper.Encriptar(usuario.Clave);
+            var validarUsuario = contextIntance.Usuarios.Include(x=> x.Roles).FirstOrDefault(u => u.Clave == usuario.Clave && u.Mail == usuario.Mail);
+            if(validarUsuario != null)
+            {
+                return Ok(validarUsuario.Nombre + ";" + validarUsuario.Roles.Nombre + ";" + validarUsuario.Mail);
+
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
+
     }
 }

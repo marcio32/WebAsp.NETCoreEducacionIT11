@@ -1,5 +1,6 @@
 ﻿using Data.Base;
 using Data.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
 using Web.ViewModels;
@@ -16,6 +17,8 @@ namespace Web.Controllers
         {
             _httpClient = httpClient;
         }
+
+        [Authorize]
         public IActionResult Servicios()
         {
             return View();

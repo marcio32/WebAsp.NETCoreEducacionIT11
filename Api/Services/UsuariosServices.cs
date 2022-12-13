@@ -2,6 +2,7 @@
 using Commons.Helpers;
 using Data.Entities;
 using Data.Managers;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Services
 {
@@ -17,7 +18,16 @@ namespace Api.Services
         {
             try
             {
-                return await _manager.BuscarLista();
+                var buscarLista = await _manager.BuscarLista();
+
+                foreach (var item in buscarLista)
+                {
+                    item.Clave = EncryptHelper.Desencriptar(item.Clave);
+                }
+
+                return buscarLista;
+
+
             }
             catch (Exception ex)
             {
@@ -36,6 +46,14 @@ namespace Api.Services
         {
             try
             {
+                var buscarLista = _manager.BuscarUsuarioRepetido(usuario);
+
+                if (buscarLista != null)
+                {
+                    return false;
+                }
+
+                usuario.Clave = EncryptHelper.Encriptar(usuario.Clave);
                 return await _manager.Guardar(usuario, usuario.Id);
 
             }
