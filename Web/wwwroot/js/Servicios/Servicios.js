@@ -11,7 +11,6 @@ $(document).ready(function () {
             { data: 'nombre', title: 'Descripcion' },
             {
                 data: function (data) {
-                    debugger
                     return data.activo == true ? "Si" : "No";
                 }, title: 'Activo'
             },
