@@ -39,6 +39,7 @@ namespace Web.Controllers
 
         public  IActionResult GuardarProducto(Productos producto)
         {
+            var token = HttpContext.Session.GetString("Token");
             var baseApi = new BaseApi(_httpClient);
 
             if(producto.Imagen_Archivo != null && producto.Imagen_Archivo.Length > 0)
@@ -52,14 +53,15 @@ namespace Web.Controllers
             }
             producto.Imagen_Archivo = null;
 
-            var productos = baseApi.PostToApi("Productos/GuardarProducto", producto, "");
+            var productos = baseApi.PostToApi("Productos/GuardarProducto", producto, token);
             return View("~/Views/Productos/Productos.cshtml");
         }
 
         public IActionResult EliminarProducto([FromBody] Productos producto)
         {
+            var token = HttpContext.Session.GetString("Token");
             var baseApi = new BaseApi(_httpClient);
-            var productos = baseApi.PostToApi("Productos/EliminarProducto", producto, "");
+            var productos = baseApi.PostToApi("Productos/EliminarProducto", producto, token);
             return View("~/Views/Productos/Productos.cshtml");
         }
     }

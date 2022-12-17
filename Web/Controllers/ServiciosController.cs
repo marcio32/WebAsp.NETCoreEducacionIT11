@@ -38,16 +38,18 @@ namespace Web.Controllers
 
         public IActionResult GuardarServicio(Servicios servicio)
         {
+            var token = HttpContext.Session.GetString("Token");
             var baseApi = new BaseApi(_httpClient);
 
-            var servicios = baseApi.PostToApi("Servicios/GuardarServicio", servicio, "");
+            var servicios = baseApi.PostToApi("Servicios/GuardarServicio", servicio, token);
             return View("~/Views/Servicios/Servicios.cshtml");
         }
 
         public IActionResult EliminarServicio([FromBody] Servicios servicio)
         {
+            var token = HttpContext.Session.GetString("Token");
             var baseApi = new BaseApi(_httpClient);
-            var servicios = baseApi.PostToApi("Servicios/EliminarServicio", servicio, "");
+            var servicios = baseApi.PostToApi("Servicios/EliminarServicio", servicio, token);
             return View("~/Views/Servicios/Servicios.cshtml");
         }
     }

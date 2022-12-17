@@ -1,10 +1,12 @@
 ﻿using Api.Services;
 using Data.Entities;
 using Data.Managers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class ServiciosController : Controller

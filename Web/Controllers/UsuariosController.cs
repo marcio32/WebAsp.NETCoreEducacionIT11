@@ -28,8 +28,9 @@ namespace Web.Controllers
         [Authorize(Roles ="Administrador")]
         public async Task<IActionResult> UsuariosAddPartial([FromBody] Usuarios usuarios)
         {
+            var token = HttpContext.Session.GetString("Token");
             var baseApi = new BaseApi(_httpClient);
-            var roles = await baseApi.GetToApi("Roles/BuscarRoles", "");
+            var roles = await baseApi.GetToApi("Roles/BuscarRoles", token);
             var usuariosViewModel = new UsuariosViewModel();
             var resultadoRoles = roles as OkObjectResult;
 
@@ -55,16 +56,19 @@ namespace Web.Controllers
 
         public IActionResult GuardarUsuario(Usuarios usuario)
         {
+            var token = HttpContext.Session.GetString("Token");
             var baseApi = new BaseApi(_httpClient);
+            var usuarios = baseApi.PostToApi("Usuarios/GuardarUsuario", usuario, token);
 
-            var usuarios = baseApi.PostToApi("Usuarios/GuardarUsuario", usuario, "");
             return View("~/Views/Usuarios/Usuarios.cshtml");
         }
 
         public IActionResult EliminarUsuario([FromBody] Usuarios usuario)
         {
+            var token = HttpContext.Session.GetString("Token");
             var baseApi = new BaseApi(_httpClient);
-            var usuarios = baseApi.PostToApi("Usuarios/EliminarUsuario", usuario, "");
+            var usuarios = baseApi.PostToApi("Usuarios/EliminarUsuario", usuario, token);
+
             return View("~/Views/Usuarios/Usuarios.cshtml");
         }
     }

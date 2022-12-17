@@ -38,16 +38,17 @@ namespace Web.Controllers
 
         public IActionResult GuardarRol(Roles rol)
         {
+            var token = HttpContext.Session.GetString("Token");
             var baseApi = new BaseApi(_httpClient);
-
-            var roles = baseApi.PostToApi("Roles/GuardarRol", rol, "");
+            var roles = baseApi.PostToApi("Roles/GuardarRol", rol, token);
             return View("~/Views/Roles/Roles.cshtml");
         }
 
         public IActionResult EliminarRol([FromBody] Roles rol)
         {
+            var token = HttpContext.Session.GetString("Token");
             var baseApi = new BaseApi(_httpClient);
-            var roles = baseApi.PostToApi("Roles/EliminarRol", rol, "");
+            var roles = baseApi.PostToApi("Roles/EliminarRol", rol, token);
             return View("~/Views/Roles/Roles.cshtml");
         }
     }

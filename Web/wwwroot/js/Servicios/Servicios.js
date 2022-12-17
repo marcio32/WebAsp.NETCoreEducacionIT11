@@ -1,10 +1,12 @@
 ﻿var tablaServicios;
 
 $(document).ready(function () {
+    var token = getCookie("Token");
     tablaServicios = $('#servicios').DataTable({
         ajax: {
             url: 'https://localhost:7059/api/Servicios/BuscarServicios',
-            dataSrc: ""
+            dataSrc: "",
+            headers: { "Authorization": "Bearer " + token }
         },
         columns: [
             { data: 'id', title: 'Id' },

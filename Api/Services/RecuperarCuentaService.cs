@@ -8,40 +8,21 @@ namespace Api.Services
 {
     public class RecuperarCuentaService : IRecuperarCuentaServices
     {
-
         private readonly RecuperarCuentaManager _manager;
+
         public RecuperarCuentaService()
         {
             _manager = new RecuperarCuentaManager();
-
         }
+
         public Usuarios BuscarUsuario(LoginDto usuario)
         {
-            try
-            {
-                var respuesta = _manager.BuscarUsuario(usuario);
-                return respuesta;
-            }
-            catch(Exception ex)
-            {
-                GenerateLogHelper.LogError(ex, "RecuperarCuentaService", "BuscarUsuario");
-                return null;
-            }
+            return _manager.BuscarUsuario(usuario);
         }
 
         public bool GuardarCodigo(Usuarios usuario)
         {
-            try
-            {
-                var respuesta = _manager.Guardar(usuario, usuario.Id);
-                return respuesta.Result;
-            }
-            catch (Exception ex)
-            {
-                GenerateLogHelper.LogError(ex, "RecuperarCuentaService", "GuardarCodigo");
-                return false;
-            }
-
+            return _manager.Guardar(usuario, usuario.Id).Result;
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Commons.Helpers;
 
-namespace Api.Middlewares
+namespace Web.Middlewares
 {
     public class ExceptionMiddleware
     {
@@ -19,7 +19,7 @@ namespace Api.Middlewares
             }
             catch(Exception ex)
             {
-                await GenerateLogHelper.LogError(ex, "ApiExceptionMiddleware", ex.TargetSite.Name);
+                await GenerateLogHelper.LogError(ex, "WebExceptionMiddleware", ex.TargetSite.Name);
             }
         }
     }

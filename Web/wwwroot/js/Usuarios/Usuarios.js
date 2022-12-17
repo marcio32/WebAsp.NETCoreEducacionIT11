@@ -1,10 +1,13 @@
 ﻿var tablaUsuarios;
 
 $(document).ready(function () {
+    debugger
+    var token = getCookie("Token");
     tablaUsuarios = $('#usuarios').DataTable({
         ajax: {
             url: 'https://localhost:7059/api/Usuarios/BuscarUsuarios',
-            dataSrc: ""
+            dataSrc: "",
+            headers: {"Authorization": "Bearer " + token}
         },
         columns: [
             { data: 'id', title: 'Id' },

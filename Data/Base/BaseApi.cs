@@ -24,6 +24,12 @@ namespace Data.Base
             try
             {
                 var client = _httpClient.CreateClient("useApi");
+
+                if(token != "")
+                {
+                    client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("bearer", token);
+                }
+
                 var response = await client.PostAsJsonAsync(ControllerName, model);
 
                 if (response.IsSuccessStatusCode)
@@ -45,6 +51,12 @@ namespace Data.Base
             try
             {
                 var client = _httpClient.CreateClient("useApi");
+
+                if (token != "")
+                {
+                    client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("bearer", token);
+                }
+
                 var response = await client.GetAsync(ControllerName);
 
                 if (response.IsSuccessStatusCode)

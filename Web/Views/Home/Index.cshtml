@@ -1,9 +1,11 @@
-﻿
+﻿@model  Web.ViewModels.HomeViewModel
 @{
     ViewData["Title"] = "Home Page";
 }
 
+@Html.HiddenFor(x=> x.Token)
 <div class="text-center">
     <h1 class="display-4">Bienvenidos</h1>
     <p>Al curso de educacion it</a>.</p>
 </div>
+<script src="~/js/home/home.js"></script>

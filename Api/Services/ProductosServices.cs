@@ -15,15 +15,7 @@ namespace Api.Services
         }
         public async Task<List<Productos>> BuscarLista()
         {
-            try
-            {
-                return await _manager.BuscarLista();
-            }
-            catch (Exception ex)
-            {
-                GenerateLogHelper.LogError(ex, "Productos", "BuscarLista");
-                throw ex;
-            }
+            return await _manager.BuscarLista();
         }
 
         public async Task<bool> Eliminar(Productos producto)
@@ -34,17 +26,7 @@ namespace Api.Services
 
         public async Task<bool> Guardar(Productos producto)
         {
-            try 
-            {
-
-                return await _manager.Guardar(producto, producto.Id);
-                
-            }
-            catch (Exception ex)
-            {
-                GenerateLogHelper.LogError(ex, "Productos", "Guardar");
-                throw ex;
-            }
+            return await _manager.Guardar(producto, producto.Id);
         }
     }
 }

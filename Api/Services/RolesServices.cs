@@ -15,15 +15,7 @@ namespace Api.Services
         }
         public async Task<List<Roles>> BuscarLista()
         {
-            try
-            {
-                return await _manager.BuscarLista();
-            }
-            catch (Exception ex)
-            {
-                GenerateLogHelper.LogError(ex, "Roles", "BuscarLista");
-                throw ex;
-            }
+            return await _manager.BuscarLista();
         }
 
         public async Task<bool> Eliminar(Roles rol)
@@ -34,16 +26,7 @@ namespace Api.Services
 
         public async Task<bool> Guardar(Roles rol)
         {
-            try
-            {
-                return await _manager.Guardar(rol, rol.Id);
-
-            }
-            catch (Exception ex)
-            {
-                GenerateLogHelper.LogError(ex, "Roles", "Guardar");
-                throw ex;
-            }
+            return await _manager.Guardar(rol, rol.Id);
         }
     }
 }

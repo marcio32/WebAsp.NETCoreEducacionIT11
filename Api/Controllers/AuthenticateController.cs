@@ -3,6 +3,10 @@ using Data;
 using Data.Dto;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace Api.Controllers
 {
@@ -11,9 +15,11 @@ namespace Api.Controllers
     public class AuthenticateController : ControllerBase
     {
         private static ApplicationDbContext contextIntance;
-        public AuthenticateController()
+        private readonly IConfiguration _configuration;
+        public AuthenticateController(IConfiguration configuration)
         {
             contextIntance = new ApplicationDbContext();
+            _configuration = configuration;
         }
 
         [HttpPost]
@@ -21,10 +27,18 @@ namespace Api.Controllers
         public async Task<IActionResult> Login(LoginDto usuario)
         {
             usuario.Clave = EncryptHelper.Encriptar(usuario.Clave);
-            var validarUsuario = contextIntance.Usuarios.Include(x=> x.Roles).FirstOrDefault(u => u.Clave == usuario.Clave && u.Mail == usuario.Mail);
-            if(validarUsuario != null)
+            var validarUsuario = contextIntance.Usuarios.Include(x => x.Roles).FirstOrDefault(u => u.Clave == usuario.Clave && u.Mail == usuario.Mail);
+            if (validarUsuario != null)
             {
-                return Ok(validarUsuario.Nombre + ";" + validarUsuario.Roles.Nombre + ";" + validarUsuario.Mail);
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Email, validarUsuario.Mail),
+                    new Claim(ClaimTypes.DateOfBirth, validarUsuario.Fecha_Nacimiento.ToString()),
+                    new Claim(ClaimTypes.Role, validarUsuario.Roles.Nombre)
+                };
+
+                var token = CrearToken(claims);
+                return Ok(new JwtSecurityTokenHandler().WriteToken(token).ToString() + ";" + validarUsuario.Nombre + ";" + validarUsuario.Roles.Nombre + ";" + validarUsuario.Mail);
 
             }
             else
@@ -33,5 +47,18 @@ namespace Api.Controllers
             }
         }
 
+
+        private JwtSecurityToken CrearToken(List<Claim> autorizar)
+        {
+            var firma = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Firma"]));
+
+            var token = new JwtSecurityToken(
+                expires: DateTime.Now.AddHours(24),
+                claims: autorizar,
+                signingCredentials: new SigningCredentials(firma, SecurityAlgorithms.HmacSha256)
+                );
+
+            return token;
+        }
     }
 }

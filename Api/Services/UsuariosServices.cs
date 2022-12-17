@@ -16,24 +16,14 @@ namespace Api.Services
         }
         public async Task<List<Usuarios>> BuscarLista()
         {
-            try
+            var buscarLista = await _manager.BuscarLista();
+
+            foreach (var item in buscarLista)
             {
-                var buscarLista = await _manager.BuscarLista();
-
-                foreach (var item in buscarLista)
-                {
-                    item.Clave = EncryptHelper.Desencriptar(item.Clave);
-                }
-
-                return buscarLista;
-
-
+                item.Clave = EncryptHelper.Desencriptar(item.Clave);
             }
-            catch (Exception ex)
-            {
-                GenerateLogHelper.LogError(ex, "Usuarios", "BuscarLista");
-                throw ex;
-            }
+
+            return buscarLista;
         }
 
         public async Task<bool> Eliminar(Usuarios usuario)
@@ -44,24 +34,15 @@ namespace Api.Services
 
         public async Task<bool> Guardar(Usuarios usuario)
         {
-            try
+            var buscarLista = _manager.BuscarUsuarioRepetido(usuario);
+
+            if (buscarLista.Result != null && usuario.Id == 0)
             {
-                var buscarLista = _manager.BuscarUsuarioRepetido(usuario);
-
-                if (buscarLista != null)
-                {
-                    return false;
-                }
-
-                usuario.Clave = EncryptHelper.Encriptar(usuario.Clave);
-                return await _manager.Guardar(usuario, usuario.Id);
-
+                return false;
             }
-            catch (Exception ex)
-            {
-                GenerateLogHelper.LogError(ex, "Usuarios", "Guardar");
-                throw ex;
-            }
+
+            usuario.Clave = EncryptHelper.Encriptar(usuario.Clave);
+            return await _manager.Guardar(usuario, usuario.Id);
         }
     }
 }

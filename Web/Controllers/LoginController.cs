@@ -1,4 +1,5 @@
-﻿using Data.Base;
+﻿using Api.Dtos;
+using Data.Base;
 using Data.Dto;
 using Data.Entities;
 using Microsoft.AspNetCore.Authentication;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Net.Mail;
 using System.Security.Claims;
+using Web.ViewModels;
 
 namespace Web.Controllers
 {
@@ -56,9 +58,9 @@ namespace Web.Controllers
             {
                 var resultadoSplit = resultadoLogin.Value.ToString().Split(";");
                 ClaimsIdentity identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.Role);
-                Claim claimNombre = new(ClaimTypes.Name, resultadoSplit[0]);
-                Claim claimRole = new(ClaimTypes.Role, resultadoSplit[1]);
-                Claim claimEmail = new(ClaimTypes.Email, resultadoSplit[2]);
+                Claim claimNombre = new(ClaimTypes.Name, resultadoSplit[1]);
+                Claim claimRole = new(ClaimTypes.Role, resultadoSplit[2]);
+                Claim claimEmail = new(ClaimTypes.Email, resultadoSplit[3]);
 
                 identity.AddClaim(claimNombre);
                 identity.AddClaim(claimRole);
@@ -71,9 +73,12 @@ namespace Web.Controllers
                     ExpiresUtc = DateTime.Now.AddDays(1)
                 });
 
+                HttpContext.Session.SetString("Token", resultadoSplit[0]);
 
+                var homeViewModel = new HomeViewModel();
+                homeViewModel.Token = resultadoSplit[0];
 
-                return View("~/Views/Home/Index.cshtml");
+                return View("~/Views/Home/Index.cshtml", homeViewModel);
             }
             else
             {
@@ -88,12 +93,10 @@ namespace Web.Controllers
             return RedirectToAction("Login", "Login");
         }
 
-        public async Task<IActionResult> CrearUsuario(Usuarios usuario)
+        public async Task<IActionResult> CrearUsuario(CrearUsuarioDto usuario)
         {
-            usuario.Id_Rol = 2;
-            usuario.Activo = true;
             var baseApi = new BaseApi(_httpClient);
-            var response = await baseApi.PostToApi("Usuarios/GuardarUsuario", usuario, "");
+            var response = await baseApi.PostToApi("Usuarios/CrearUsuario", usuario, "");
             var resultadoLogin = response as OkObjectResult;
             if(resultadoLogin != null && resultadoLogin.Value.ToString() == "true")
             {
