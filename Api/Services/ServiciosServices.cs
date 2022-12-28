@@ -1,5 +1,6 @@
 ﻿using Api.Interfaces;
 using Commons.Helpers;
+using Data.Dto;
 using Data.Entities;
 using Data.Managers;
 
@@ -18,15 +19,19 @@ namespace Api.Services
             return await _manager.BuscarLista();
         }
 
-        public async Task<bool> Eliminar(Servicios rol)
+        public async Task<bool> Eliminar(ServiciosDto servicioDto)
         {
-            rol.Activo = false;
-            return await _manager.Eliminar(rol);
+            var servicio = new Servicios();
+            servicio = servicioDto;
+            servicio.Activo = false;
+            return await _manager.Eliminar(servicio);
         }
 
-        public async Task<bool> Guardar(Servicios rol)
+        public async Task<bool> Guardar(ServiciosDto servicioDto)
         {
-            return await _manager.Guardar(rol);
+            var servicio = new Servicios();
+            servicio = servicioDto;
+            return await _manager.Guardar(servicio);
         }
     }
 }

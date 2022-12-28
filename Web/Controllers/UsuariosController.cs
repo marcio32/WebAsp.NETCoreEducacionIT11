@@ -1,4 +1,5 @@
 ﻿using Data.Base;
+using Data.Dto;
 using Data.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -26,7 +27,7 @@ namespace Web.Controllers
         }
 
         [Authorize(Roles ="Administrador")]
-        public async Task<IActionResult> UsuariosAddPartial([FromBody] Usuarios usuarios)
+        public async Task<IActionResult> UsuariosAddPartial([FromBody] UsuariosDto usuarioDto)
         {
             var token = HttpContext.Session.GetString("Token");
             var baseApi = new BaseApi(_httpClient);
@@ -34,15 +35,15 @@ namespace Web.Controllers
             var usuariosViewModel = new UsuariosViewModel();
             var resultadoRoles = roles as OkObjectResult;
 
-            if (usuarios != null)
+            if (usuarioDto != null)
             {
-                usuariosViewModel = usuarios;
+                usuariosViewModel = usuarioDto;
 
             }
 
             if (resultadoRoles != null)
             {
-                var listaRoles = JsonConvert.DeserializeObject<List<Roles>>(resultadoRoles.Value.ToString());
+                var listaRoles = JsonConvert.DeserializeObject<List<RolesDto>>(resultadoRoles.Value.ToString());
                 
                 var listaItemsRoles = new List<SelectListItem>();
                 foreach (var item in listaRoles)
@@ -54,20 +55,20 @@ namespace Web.Controllers
             return PartialView("~/Views/Usuarios/Partial/UsuariosAddPartial.cshtml", usuariosViewModel);
         }
 
-        public IActionResult GuardarUsuario(Usuarios usuario)
+        public IActionResult GuardarUsuario(UsuariosDto usuarioDto)
         {
             var token = HttpContext.Session.GetString("Token");
             var baseApi = new BaseApi(_httpClient);
-            var usuarios = baseApi.PostToApi("Usuarios/GuardarUsuario", usuario, token);
+            var usuarios = baseApi.PostToApi("Usuarios/GuardarUsuario", usuarioDto, token);
 
             return View("~/Views/Usuarios/Usuarios.cshtml");
         }
 
-        public IActionResult EliminarUsuario([FromBody] Usuarios usuario)
+        public IActionResult EliminarUsuario([FromBody] UsuariosDto usuarioDto)
         {
             var token = HttpContext.Session.GetString("Token");
             var baseApi = new BaseApi(_httpClient);
-            var usuarios = baseApi.PostToApi("Usuarios/EliminarUsuario", usuario, token);
+            var usuarios = baseApi.PostToApi("Usuarios/EliminarUsuario", usuarioDto, token);
 
             return View("~/Views/Usuarios/Usuarios.cshtml");
         }

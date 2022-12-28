@@ -24,10 +24,10 @@ namespace Api.Controllers
 
         [HttpPost]
         [Route("Login")]
-        public async Task<IActionResult> Login(LoginDto usuario)
+        public async Task<IActionResult> Login(LoginDto loginDto)
         {
-            usuario.Clave = EncryptHelper.Encriptar(usuario.Clave);
-            var validarUsuario = contextIntance.Usuarios.Include(x => x.Roles).FirstOrDefault(u => u.Clave == usuario.Clave && u.Mail == usuario.Mail);
+            loginDto.Clave = EncryptHelper.Encriptar(loginDto.Clave);
+            var validarUsuario = contextIntance.Usuarios.Include(x => x.Roles).FirstOrDefault(u => u.Clave == loginDto.Clave && u.Mail == loginDto.Mail);
             if (validarUsuario != null)
             {
                 var claims = new List<Claim>
@@ -47,6 +47,28 @@ namespace Api.Controllers
             }
         }
 
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public async Task<IActionResult> LoginGoogle(LoginDto loginDto)
+        {
+            var validarUsuario = contextIntance.Usuarios.Include(x => x.Roles).FirstOrDefault(u => u.Mail == loginDto.Mail);
+            if (validarUsuario != null)
+            {
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Email, validarUsuario.Mail),
+                    new Claim(ClaimTypes.DateOfBirth, validarUsuario.Fecha_Nacimiento.ToString()),
+                    new Claim(ClaimTypes.Role, validarUsuario.Roles.Nombre)
+                };
+
+                var token = CrearToken(claims);
+                return Ok(new JwtSecurityTokenHandler().WriteToken(token).ToString() + ";" + validarUsuario.Nombre + ";" + validarUsuario.Roles.Nombre + ";" + validarUsuario.Mail);
+
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
 
         private JwtSecurityToken CrearToken(List<Claim> autorizar)
         {

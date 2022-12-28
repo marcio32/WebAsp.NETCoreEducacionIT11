@@ -1,5 +1,6 @@
 ﻿using Api.Interfaces;
 using Commons.Helpers;
+using Data.Dto;
 using Data.Entities;
 using Data.Managers;
 
@@ -18,14 +19,18 @@ namespace Api.Services
             return await _manager.BuscarLista();
         }
 
-        public async Task<bool> Eliminar(Productos producto)
+        public async Task<bool> Eliminar(ProductosDto productoDto)
         {
+            var producto = new Productos();
+            producto = productoDto;
             producto.Activo = false;
             return await _manager.Eliminar(producto);
         }
 
-        public async Task<bool> Guardar(Productos producto)
+        public async Task<bool> Guardar(ProductosDto productoDto)
         {
+            var producto = new Productos();
+            producto = productoDto;
             return await _manager.Guardar(producto, producto.Id);
         }
     }

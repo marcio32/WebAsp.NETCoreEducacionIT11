@@ -1,4 +1,5 @@
-﻿using Data.Entities;
+﻿using Data.Dto;
+using Data.Entities;
 
 namespace Web.ViewModels
 {
@@ -9,18 +10,18 @@ namespace Web.ViewModels
         public decimal Precio { get; set; }
         public int Stock { get; set; }
         public string? Imagen { get; set; }
-        public IFormFile? Imagen_archivo { get; set; }
+        public IFormFile? Imagen_Archivo { get; set; }
         public bool Activo { get; set; }
 
-        public static implicit operator ProductosViewModel(Productos v)
+        public static implicit operator ProductosViewModel(ProductosDto productoDto)
         {
             var productoViewModel = new ProductosViewModel();
-            productoViewModel.Id = v.Id;
-            productoViewModel.Descripcion = v.Descripcion;
-            productoViewModel.Stock = v.Stock;
-            productoViewModel.Imagen = v.Imagen;
-            productoViewModel.Precio = v.Precio;
-            productoViewModel.Activo = v.Activo;
+            productoViewModel.Id = productoDto.Id;
+            productoViewModel.Descripcion = productoDto.Descripcion;
+            productoViewModel.Stock = productoDto.Stock;
+            productoViewModel.Imagen = productoDto.Imagen;
+            productoViewModel.Precio = productoDto.Precio;
+            productoViewModel.Activo = productoDto.Activo;
             return productoViewModel;
 
         }

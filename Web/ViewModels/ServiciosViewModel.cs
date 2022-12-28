@@ -1,4 +1,5 @@
-﻿using Data.Entities;
+﻿using Data.Dto;
+using Data.Entities;
 
 namespace Web.ViewModels
 {
@@ -8,12 +9,12 @@ namespace Web.ViewModels
         public string Nombre { get; set; }
         public bool Activo { get; set; }
 
-        public static implicit operator ServiciosViewModel(Servicios v)
+        public static implicit operator ServiciosViewModel(ServiciosDto servicioDto)
         {
             var servicioViewModel = new ServiciosViewModel();
-            servicioViewModel.Id = v.Id;
-            servicioViewModel.Nombre = v.Nombre;
-            servicioViewModel.Activo = v.Activo;
+            servicioViewModel.Id = servicioDto.Id;
+            servicioViewModel.Nombre = servicioDto.Nombre;
+            servicioViewModel.Activo = servicioDto.Activo;
             return servicioViewModel;
 
         }

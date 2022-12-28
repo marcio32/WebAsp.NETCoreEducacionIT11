@@ -1,4 +1,5 @@
-﻿using Data.Entities;
+﻿using Data.Dto;
+using Data.Entities;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Web.ViewModels
@@ -16,17 +17,17 @@ namespace Web.ViewModels
         public string Clave { get; set; }
         public IEnumerable<SelectListItem> Lista_Roles { get; set; }
 
-        public static implicit operator UsuariosViewModel(Usuarios v)
+        public static implicit operator UsuariosViewModel(UsuariosDto usuarioDto)
         {
             var usuarioViewModel = new UsuariosViewModel();
-            usuarioViewModel.Id = v.Id;
-            usuarioViewModel.Nombre = v.Nombre;
-            usuarioViewModel.Apellido = v.Apellido;
-            usuarioViewModel.Fecha_Nacimiento = v.Fecha_Nacimiento;
-            usuarioViewModel.Mail = v.Mail;
-            usuarioViewModel.Id_Rol = v.Id_Rol;
-            usuarioViewModel.Clave = v.Clave;
-            usuarioViewModel.Activo = v.Activo;
+            usuarioViewModel.Id = usuarioDto.Id;
+            usuarioViewModel.Nombre = usuarioDto.Nombre;
+            usuarioViewModel.Apellido = usuarioDto.Apellido;
+            usuarioViewModel.Fecha_Nacimiento = usuarioDto.Fecha_Nacimiento;
+            usuarioViewModel.Mail = usuarioDto.Mail;
+            usuarioViewModel.Id_Rol = usuarioDto.Id_Rol;
+            usuarioViewModel.Clave = usuarioDto.Clave;
+            usuarioViewModel.Activo = usuarioDto.Activo;
             return usuarioViewModel;
 
         }

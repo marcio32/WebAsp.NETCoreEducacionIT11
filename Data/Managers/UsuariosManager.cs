@@ -1,4 +1,5 @@
 ﻿using Data.Base;
+using Data.Dto;
 using Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -41,6 +42,12 @@ namespace Data.Managers
             contextoSingleton.Entry(modelo).State = EntityState.Detached;
 
             return resultado;
+        }
+
+        public async Task<Usuarios> BuscarUsuarioGoogleAsync(LoginDto usuario)
+        {
+            var result = await contextoSingleton.Usuarios.FirstOrDefaultAsync(x => x.Mail == usuario.Mail && x.Activo == true);
+            return result;
         }
     }
 }

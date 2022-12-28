@@ -1,10 +1,15 @@
 using Web.Middlewares;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Authentication;
+using Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+ApplicationDbContext.ConnectionString = builder.Configuration.GetConnectionString("WebEducacionIT");
 
 builder.Services.AddHttpClient("useApi", config =>
 {
@@ -24,6 +29,11 @@ builder.Services.AddAuthentication(option =>
         context.Response.Redirect("https://localhost:7087");
         return Task.CompletedTask;
     };
+}).AddGoogle(GoogleDefaults.AuthenticationScheme, options =>
+{
+    options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+    options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+    options.ClaimActions.MapJsonKey("urn:google:picture", "picture", "url");
 });
 
 builder.Services.AddAuthorization(option =>

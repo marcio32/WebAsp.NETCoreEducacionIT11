@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Data.Dto;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,5 +14,14 @@ namespace Data.Entities
         public bool Activo { get; set; }
 
         public int MyProperty { get; set; }
+
+        public static implicit operator Servicios(ServiciosDto servicioDto)
+        {
+            var servicio = new Servicios();
+            servicio.Id = servicioDto.Id;
+            servicio.Nombre = servicioDto.Nombre;
+            servicio.Activo = servicioDto.Activo;
+            return servicio;
+        }
     }
 }

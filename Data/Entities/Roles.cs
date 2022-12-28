@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Data.Dto;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,5 +13,13 @@ namespace Data.Entities
         public string Nombre { get; set; }
         public bool Activo { get; set; }
 
+        public static implicit operator Roles(RolesDto rolDto)
+        {
+            var rol = new Roles();
+            rol.Id = rolDto.Id;
+            rol.Nombre = rolDto.Nombre;
+            rol.Activo = rolDto.Activo;
+            return rol;
+        }
     }
 }

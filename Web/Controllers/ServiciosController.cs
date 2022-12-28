@@ -1,4 +1,5 @@
 ﻿using Data.Base;
+using Data.Dto;
 using Data.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,32 +25,32 @@ namespace Web.Controllers
             return View();
         }
 
-        public IActionResult ServiciosAddPartial([FromBody] Servicios servicios)
+        public IActionResult ServiciosAddPartial([FromBody] ServiciosDto serviciosDto)
         {
             var serviciosViewModel = new ServiciosViewModel();
 
-            if (servicios != null)
+            if (serviciosDto != null)
             {
-                serviciosViewModel = servicios;
+                serviciosViewModel = serviciosDto;
 
             }
             return PartialView("~/Views/Servicios/Partial/ServiciosAddPartial.cshtml", serviciosViewModel);
         }
 
-        public IActionResult GuardarServicio(Servicios servicio)
+        public IActionResult GuardarServicio(ServiciosDto serviciosDto)
         {
             var token = HttpContext.Session.GetString("Token");
             var baseApi = new BaseApi(_httpClient);
 
-            var servicios = baseApi.PostToApi("Servicios/GuardarServicio", servicio, token);
+            var servicios = baseApi.PostToApi("Servicios/GuardarServicio", serviciosDto, token);
             return View("~/Views/Servicios/Servicios.cshtml");
         }
 
-        public IActionResult EliminarServicio([FromBody] Servicios servicio)
+        public IActionResult EliminarServicio([FromBody] ServiciosDto serviciosDto)
         {
             var token = HttpContext.Session.GetString("Token");
             var baseApi = new BaseApi(_httpClient);
-            var servicios = baseApi.PostToApi("Servicios/EliminarServicio", servicio, token);
+            var servicios = baseApi.PostToApi("Servicios/EliminarServicio", serviciosDto, token);
             return View("~/Views/Servicios/Servicios.cshtml");
         }
     }

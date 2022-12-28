@@ -1,13 +1,16 @@
-﻿using Api.Dtos;
+﻿using Api.Controllers;
 using Data.Base;
 using Data.Dto;
+using Data.Dtos;
 using Data.Entities;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Net.Mail;
 using System.Security.Claims;
+using Web.Services;
 using Web.ViewModels;
 
 namespace Web.Controllers
@@ -158,7 +161,6 @@ namespace Web.Controllers
             return mensaje;
         }
     
-
         public async Task<IActionResult> CambiarClave(LoginDto login)
         {
             var baseApi = new BaseApi(_httpClient);
@@ -176,6 +178,51 @@ namespace Web.Controllers
                 return RedirectToAction("Login", "Login");
 
             }
+        }
+
+        public async Task LoginGoogle()
+        {
+            await HttpContext.ChallengeAsync(GoogleDefaults.AuthenticationScheme, new AuthenticationProperties()
+            {
+                RedirectUri = Url.Action("GoogleResponse")
+            });
+        }
+
+        public async Task<IActionResult> GoogleResponse()
+        {
+            var resultado = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            var claims = resultado.Principal.Identities.FirstOrDefault().Claims.Select(claim => new
+            {
+                claim.Value,
+                claim.Type,
+                claim.Issuer,
+                claim.OriginalIssuer
+            });
+
+            var login = new LoginDto();
+            login.Mail = claims.ToList()[4].Value;
+            var usuarioService = new UsuariosService();
+            var usuario = usuarioService.buscarUsuario(login).Result;
+
+            if(usuario != null)
+            {
+                var authenticate = new AuthenticateController(_configuration);
+                var token = await authenticate.LoginGoogle(login);
+                var resultadoToken = token as OkObjectResult;
+
+                var resultadoSplit = resultadoToken.Value.ToString().Split(";");
+                HttpContext.Session.SetString("Token", resultadoSplit[0]);
+                var homeViewModel = new HomeViewModel();
+                homeViewModel.Token = resultadoSplit[0];
+                return View("~/Views/Home/Index.cshtml", homeViewModel);
+            }
+            else
+            {
+                TempData["ErrorLogin"] = "El usuario no existe";
+                return RedirectToAction("Login", "Login");
+            }
+
         }
     }
 }

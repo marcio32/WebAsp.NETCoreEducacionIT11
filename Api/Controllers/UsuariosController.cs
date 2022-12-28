@@ -1,4 +1,5 @@
 ﻿using Api.Services;
+using Data.Dto;
 using Data.Dtos;
 using Data.Entities;
 using Data.Managers;
@@ -30,27 +31,17 @@ namespace Api.Controllers
         [Authorize]
         [HttpPost]
         [Route("GuardarUsuario")]
-        public async Task<bool> GuardarUsuario(Usuarios usuario)
+        public async Task<bool> GuardarUsuario(UsuariosDto usuarioDto)
         {
-            return await _services.Guardar(usuario);
-        }
-
-        [AllowAnonymous]
-        [HttpPost]
-        [Route("CrearUsuario")]
-        public async Task<bool> CrearUsuario(CrearUsuarioDto usuario)
-        {
-            var usuarios = new Usuarios();
-            usuarios = usuario;
-            return await _services.Guardar(usuarios);
+            return await _services.Guardar(usuarioDto);
         }
 
         [Authorize]
         [HttpPost]
         [Route("EliminarUsuario")]
-        public async Task<bool> EliminarUsuario(Usuarios usuario)
+        public async Task<bool> EliminarUsuario(UsuariosDto usuarioDto)
         {
-            return await _services.Eliminar(usuario);
+            return await _services.Eliminar(usuarioDto);
         }
 
     }

@@ -1,4 +1,5 @@
 ﻿using Api.Services;
+using Data.Dto;
 using Data.Entities;
 using Data.Managers;
 using Microsoft.AspNetCore.Authorization;
@@ -27,16 +28,16 @@ namespace Api.Controllers
 
         [HttpPost]
         [Route("GuardarProducto")]
-        public async Task<bool> GuardarProducto(Productos producto)
+        public async Task<bool> GuardarProducto(ProductosDto productoDto)
         {
-            return await _services.Guardar(producto);
+            return await _services.Guardar(productoDto);
         }
 
         [HttpPost]
         [Route("EliminarProducto")]
-        public async Task<bool> EliminarProducto(Productos producto)
+        public async Task<bool> EliminarProducto(ProductosDto productoDto)
         {
-            return await _services.Eliminar(producto);
+            return await _services.Eliminar(productoDto);
         }
 
     }

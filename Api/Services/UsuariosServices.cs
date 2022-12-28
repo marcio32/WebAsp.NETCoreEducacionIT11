@@ -1,5 +1,6 @@
 ﻿using Api.Interfaces;
 using Commons.Helpers;
+using Data.Dto;
 using Data.Entities;
 using Data.Managers;
 using Microsoft.AspNetCore.Mvc;
@@ -26,14 +27,18 @@ namespace Api.Services
             return buscarLista;
         }
 
-        public async Task<bool> Eliminar(Usuarios usuario)
+        public async Task<bool> Eliminar(UsuariosDto usuarioDto)
         {
+            var usuario = new Usuarios();
+            usuario = usuarioDto;
             usuario.Activo = false;
             return await _manager.Eliminar(usuario);
         }
 
-        public async Task<bool> Guardar(Usuarios usuario)
+        public async Task<bool> Guardar(UsuariosDto usuarioDto)
         {
+            var usuario = new Usuarios();
+            usuario = usuarioDto;
             var buscarLista = _manager.BuscarUsuarioRepetido(usuario);
 
             if (buscarLista.Result != null && usuario.Id == 0)

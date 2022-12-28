@@ -1,4 +1,5 @@
 ﻿using Data.Base;
+using Data.Dto;
 using Data.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -25,43 +26,43 @@ namespace Web.Controllers
         }
 
 
-        public IActionResult ProductosAddPartial([FromBody] Productos productos)
+        public IActionResult ProductosAddPartial([FromBody] ProductosDto productoDto)
         {
             var productosViewModel = new ProductosViewModel();
 
-            if(productos != null)
+            if(productoDto != null)
             {
-                productosViewModel = productos;
+                productosViewModel = productoDto;
 
             }
             return PartialView("~/Views/Productos/Partial/ProductosAddPartial.cshtml", productosViewModel);
         }
 
-        public  IActionResult GuardarProducto(Productos producto)
+        public  IActionResult GuardarProducto(ProductosDto productoDto)
         {
             var token = HttpContext.Session.GetString("Token");
             var baseApi = new BaseApi(_httpClient);
 
-            if(producto.Imagen_Archivo != null && producto.Imagen_Archivo.Length > 0)
+            if(productoDto.Imagen_Archivo != null && productoDto.Imagen_Archivo.Length > 0)
             {
                 using (var ms = new MemoryStream())
                 {
-                    producto.Imagen_Archivo.CopyTo(ms);
+                    productoDto.Imagen_Archivo.CopyTo(ms);
                     var imagenBytes = ms.ToArray();
-                    producto.Imagen = Convert.ToBase64String(imagenBytes);
+                    productoDto.Imagen = Convert.ToBase64String(imagenBytes);
                 }
             }
-            producto.Imagen_Archivo = null;
+            productoDto.Imagen_Archivo = null;
 
-            var productos = baseApi.PostToApi("Productos/GuardarProducto", producto, token);
+            var productos = baseApi.PostToApi("Productos/GuardarProducto", productoDto, token);
             return View("~/Views/Productos/Productos.cshtml");
         }
 
-        public IActionResult EliminarProducto([FromBody] Productos producto)
+        public IActionResult EliminarProducto([FromBody] ProductosDto productoDto)
         {
             var token = HttpContext.Session.GetString("Token");
             var baseApi = new BaseApi(_httpClient);
-            var productos = baseApi.PostToApi("Productos/EliminarProducto", producto, token);
+            var productos = baseApi.PostToApi("Productos/EliminarProducto", productoDto, token);
             return View("~/Views/Productos/Productos.cshtml");
         }
     }

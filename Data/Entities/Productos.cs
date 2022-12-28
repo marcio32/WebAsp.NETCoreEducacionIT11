@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Data.Dto;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,8 +16,19 @@ namespace Data.Entities
         public decimal Precio { get; set; }
         public int Stock { get; set; }
         public string? Imagen { get; set; }
-        [NotMapped]
-        public IFormFile? Imagen_Archivo { get; set; }
         public bool Activo { get; set; }
-    }
+
+		public static implicit operator Productos(ProductosDto productoDto)
+		{
+            var producto = new Productos();
+            producto.Id = productoDto.Id;
+            producto.Descripcion = productoDto.Descripcion;
+            producto.Precio = productoDto.Precio;
+            producto.Stock = productoDto.Stock;
+            producto.Imagen = productoDto.Imagen;
+            producto.Activo = productoDto.Activo;
+
+            return producto;
+		}
+	}
 }
