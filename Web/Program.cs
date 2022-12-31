@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication;
 using Data;
+using Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,8 @@ builder.Services.AddHttpClient("useApi", config =>
 {
     config.BaseAddress = new Uri(builder.Configuration["ServiceUrl:ApiUrl"]);
 });
+
+builder.Services.AddSignalR();
 
 builder.Services.AddAuthentication(option =>
 {
@@ -75,5 +78,8 @@ app.UseMiddleware<ExceptionMiddleware>();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Login}/{action=Login}/{id?}");
+
+
+app.MapHub<ChatHub>("/Chat");
 
 app.Run();

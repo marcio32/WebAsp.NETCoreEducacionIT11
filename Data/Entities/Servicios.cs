@@ -13,8 +13,6 @@ namespace Data.Entities
         public string Nombre { get; set; }
         public bool Activo { get; set; }
 
-        public int MyProperty { get; set; }
-
         public static implicit operator Servicios(ServiciosDto servicioDto)
         {
             var servicio = new Servicios();

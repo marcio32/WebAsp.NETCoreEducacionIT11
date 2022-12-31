@@ -80,6 +80,7 @@ namespace Web.Controllers
 
                 var homeViewModel = new HomeViewModel();
                 homeViewModel.Token = resultadoSplit[0];
+                homeViewModel.AjaxUrl = _configuration["ServiceUrl:AjaxUrl"];
 
                 return View("~/Views/Home/Index.cshtml", homeViewModel);
             }

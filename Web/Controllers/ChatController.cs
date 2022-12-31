@@ -4,9 +4,9 @@ namespace Web.Controllers
 {
     public class ChatController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Chat(int idChat)
         {
-            return View();
+            return View(idChat);
         }
     }
 }

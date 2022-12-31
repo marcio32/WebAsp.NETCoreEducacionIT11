@@ -3,9 +3,11 @@
 $(document).ready(function () {
     debugger
     var token = getCookie("Token");
+    var ajaxUrl = getCookie("AjaxUrl");
     tablaUsuarios = $('#usuarios').DataTable({
         ajax: {
-            url: 'https://localhost:7059/api/Usuarios/BuscarUsuarios',
+            //url: 'https://localhost:7059/api/Usuarios/BuscarUsuarios',
+            url: `${ajaxUrl}Usuarios/BuscarUsuarios`,
             dataSrc: "",
             headers: {"Authorization": "Bearer " + token}
         },

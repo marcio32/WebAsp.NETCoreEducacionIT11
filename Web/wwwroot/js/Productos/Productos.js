@@ -1,10 +1,12 @@
 ﻿var tablaProductos;
 
 $(document).ready(function () {
-        var token = getCookie("Token");
+    var token = getCookie("Token");
+    var ajaxUrl = getCookie("AjaxUrl");
     tablaProductos = $('#productos').DataTable({
         ajax: {
-            url: 'https://localhost:7059/api/Productos/BuscarProductos',
+            //url: 'https://localhost:7059/api/Productos/BuscarProductos',
+            url: `${ajaxUrl}Productos/BuscarProductos`,
             dataSrc: "",
             headers: { "Authorization": "Bearer " + token }
         },
@@ -31,7 +33,7 @@ $(document).ready(function () {
             },
             {
                 data: function (data) {
-                    var botones = 
+                    var botones =
                         `<td><a href='javascript:EditarProducto(${JSON.stringify(data)})'><i class="fa-solid fa-pen-to-square editarProducto"></i></td>` +
                         `<td><a href='javascript:EliminarProducto(${JSON.stringify(data)})'><i class="fa-solid fa-trash eliminarProducto"></i></td>`
                     return botones;
