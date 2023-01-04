@@ -18,10 +18,7 @@ namespace Data.Managers
 
         public override async Task<List<Productos>> BuscarLista()
         {
-
-            var respuesta = await contextoSingleton.Productos.Where(x => x.Activo == true).ToListAsync();
-           
-            return respuesta;
+            return await contextoSingleton.Productos.Where(x => x.Activo == true).ToListAsync();
         }
 
         public override async Task<bool> Eliminar(Productos modelo)

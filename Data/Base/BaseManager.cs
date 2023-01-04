@@ -35,12 +35,12 @@ namespace Data.Base
         public async Task<bool> Guardar(T modelo, int id)
         {
             if (id == 0)
-                contextoSingleton.Entry<T>(modelo).State = EntityState.Added;
+                contextoSingleton.Entry(modelo).State = EntityState.Added;
             else
-                contextoSingleton.Entry<T>(modelo).State = EntityState.Modified;
+                contextoSingleton.Entry(modelo).State = EntityState.Modified;
                 
             var resultado = await contextoSingleton.SaveChangesAsync() > 0;
-            contextoSingleton.Entry<T>(modelo).State = EntityState.Detached;
+            contextoSingleton.Entry(modelo).State = EntityState.Detached;
 
             return resultado;
         }

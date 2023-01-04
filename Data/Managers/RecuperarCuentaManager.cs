@@ -1,6 +1,7 @@
 ﻿using Data.Base;
 using Data.Dto;
 using Data.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,16 +12,16 @@ namespace Data.Managers
 {
     public class RecuperarCuentaManager : BaseManager<Usuarios>
     {
-        public Usuarios? BuscarUsuario(LoginDto usuario)
+        public async Task<Usuarios?> BuscarUsuario(string mail, int? codigo, string? clave)
         {
-            if(usuario.Clave != null)
+            if(clave != null)
             {
-                return contextoSingleton.Usuarios.Where(x => x.Codigo == usuario.Codigo).FirstOrDefault();
+                return await contextoSingleton.Usuarios.Where(x => x.Codigo == codigo).FirstOrDefaultAsync();
 
             }
             else
             {
-                return contextoSingleton.Usuarios.Where(x => x.Mail == usuario.Mail).FirstOrDefault();
+                return await contextoSingleton.Usuarios.Where(x => x.Mail == mail).FirstOrDefaultAsync();
 
             }
         }

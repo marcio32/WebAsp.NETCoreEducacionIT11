@@ -54,5 +54,14 @@ namespace Data.Entities
             return usuario;
 
         }
+
+        public static implicit operator Usuarios(LoginDto loginDto)
+        {
+            var usuario = new Usuarios();
+            loginDto.Mail = usuario.Mail;
+            loginDto.Codigo = usuario.Codigo;
+            loginDto.Clave = usuario.Clave;
+            return usuario;
+        }
     }
 }

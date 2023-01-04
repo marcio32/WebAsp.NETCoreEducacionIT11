@@ -1,4 +1,5 @@
 ﻿using Api.Controllers;
+using Commons.Helpers;
 using Data.Base;
 using Data.Dto;
 using Data.Dtos;
@@ -120,18 +121,15 @@ namespace Web.Controllers
             var random = new Random(seed);
             var codigo = random.Next(000000, 999999);
 
-            login.Codigo = codigo;
+            var recuperarCuentaService = new RecuperarCuentaService();
+            var usuario = recuperarCuentaService.BuscarUsuario(login.Mail);
+            usuario.Result.Codigo = codigo;
+            var resultadoLogin = recuperarCuentaService.GuardarCodigo(usuario.Result);
 
-            var baseApi = new BaseApi(_httpClient);
-            var respuesta = await baseApi.PostToApi("RecuperarCuenta/GuardarCodigo", login, "");
-            var resultadoLogin = respuesta as OkObjectResult;
-
-            if (resultadoLogin != null && resultadoLogin.Value.ToString() == "true")
+            if (resultadoLogin.Result == true)
             {
                 MailMessage mail = new();
-
                 string cuerpoMail = CuerpoMailLogin(codigo);
-
                 mail.From = new MailAddress(_configuration["ConfiguracionMail:Usuario"]);
                 mail.To.Add(login.Mail);
                 mail.Subject = "Codigo Recuperacion";
@@ -164,11 +162,13 @@ namespace Web.Controllers
     
         public async Task<IActionResult> CambiarClave(LoginDto login)
         {
-            var baseApi = new BaseApi(_httpClient);
-            var respuesta = await baseApi.PostToApi("RecuperarCuenta/CambiarClave", login, "");
-            var resultadoLogin = respuesta as OkObjectResult;
+            var recuperarCuentaService = new RecuperarCuentaService();
+            var usuario = recuperarCuentaService.BuscarUsuario(login.Mail, login.Codigo, login.Clave);
+            usuario.Result.Clave = EncryptHelper.Encriptar(login.Clave);
+            usuario.Result.Codigo = null;
+            var resultadoLogin = recuperarCuentaService.GuardarCodigo(usuario.Result);
 
-            if(resultadoLogin != null && resultadoLogin.Value.ToString() == "true")
+            if (resultadoLogin.Result == true)
             {
                 TempData["ErrorLogin"] = "Se cambio correctamente la clave";
                 return RedirectToAction("Login", "Login");

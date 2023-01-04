@@ -1,4 +1,5 @@
-﻿using Commons.Helpers;
+﻿using Api.Services;
+using Commons.Helpers;
 using Data;
 using Data.Dto;
 using Microsoft.AspNetCore.Mvc;
@@ -14,12 +15,12 @@ namespace Api.Controllers
     [Route("api/[controller]")]
     public class AuthenticateController : ControllerBase
     {
-        private static ApplicationDbContext contextIntance;
         private readonly IConfiguration _configuration;
+        private readonly UsuariosServices _services;
         public AuthenticateController(IConfiguration configuration)
         {
-            contextIntance = new ApplicationDbContext();
             _configuration = configuration;
+            _services = new UsuariosServices();
         }
 
         [HttpPost]
@@ -27,7 +28,7 @@ namespace Api.Controllers
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
             loginDto.Clave = EncryptHelper.Encriptar(loginDto.Clave);
-            var validarUsuario = contextIntance.Usuarios.Include(x => x.Roles).FirstOrDefault(u => u.Clave == loginDto.Clave && u.Mail == loginDto.Mail);
+            var validarUsuario = await _services.BuscarUsuario(loginDto.Mail, loginDto.Clave);
             if (validarUsuario != null)
             {
                 var claims = new List<Claim>
@@ -50,7 +51,7 @@ namespace Api.Controllers
         [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<IActionResult> LoginGoogle(LoginDto loginDto)
         {
-            var validarUsuario = contextIntance.Usuarios.Include(x => x.Roles).FirstOrDefault(u => u.Mail == loginDto.Mail);
+            var validarUsuario = await _services.BuscarUsuario(loginDto.Mail);
             if (validarUsuario != null)
             {
                 var claims = new List<Claim>

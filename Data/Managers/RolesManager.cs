@@ -18,10 +18,7 @@ namespace Data.Managers
 
         public override async Task<List<Roles>> BuscarLista()
         {
-
-            var respuesta = await contextoSingleton.Roles.Where(x => x.Activo == true).ToListAsync();
-
-            return respuesta;
+            return await contextoSingleton.Roles.Where(x => x.Activo == true).ToListAsync();
         }
 
         public override async Task<bool> Eliminar(Roles modelo)

@@ -20,7 +20,7 @@ namespace Data.Managers
         public override async Task<List<Servicios>> BuscarLista()
         {
 
-            var respuesta = contextoSingleton.Servicios.FromSqlRaw("ObtenerServicios").ToList();
+            return contextoSingleton.Servicios.FromSqlRaw("ObtenerServicios").ToList();
             //var respuesta = contextoSingleton.Servicios.FromSqlRaw("SELECT * FROM SERVICIOS WHERE ACTIVO = {0}", Activo);
 
             /*public async Task<IEnumerable<Procesados>> Obtener(DateTime fecha)
@@ -34,21 +34,16 @@ namespace Data.Managers
             }
             */
 
-            return respuesta;
         }
 
         public override async Task<bool> Eliminar(Servicios modelo)
         {
-
-            var resultado = contextoSingleton.Database.ExecuteSqlRaw($"EliminarServicio {modelo.Id}");
-            return Convert.ToBoolean(resultado);
+            return Convert.ToBoolean(contextoSingleton.Database.ExecuteSqlRaw($"EliminarServicio {modelo.Id}"));
         }
 
         public async Task<bool> Guardar(Servicios modelo)
         {
-            
-            var resultado = contextoSingleton.Database.ExecuteSqlRaw($"GuardarServicio '{modelo.Id}', '{modelo.Nombre}', '{modelo.Activo}'");
-            return Convert.ToBoolean(resultado);
+            return Convert.ToBoolean(contextoSingleton.Database.ExecuteSqlRaw($"GuardarServicio '{modelo.Id}', '{modelo.Nombre}', '{modelo.Activo}'"));
         }
     }
 }

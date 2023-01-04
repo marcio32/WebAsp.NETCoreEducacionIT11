@@ -19,18 +19,23 @@ namespace Data.Managers
 
         public override async Task<List<Usuarios>> BuscarLista()
         {
+            return await contextoSingleton.Usuarios.Where(x => x.Activo == true).Include(x=> x.Roles).ToListAsync();
+        }
 
-            var respuesta = await contextoSingleton.Usuarios.Where(x => x.Activo == true).Include(x=> x.Roles).ToListAsync();
+        public async Task<Usuarios> BuscarUsuario(string mail)
+        {
+            return await contextoSingleton.Usuarios.Where(x => x.Activo == true && x.Mail == mail).Include(x => x.Roles).FirstOrDefaultAsync();
+        }
 
-            return respuesta;
+        public async Task<Usuarios> BuscarUsuario(string mail, string clave)
+        {
+            return await contextoSingleton.Usuarios.Where(x => x.Activo == true && x.Mail == mail && x.Clave == clave).Include(x => x.Roles).FirstOrDefaultAsync();
         }
 
         public async Task<Usuarios> BuscarUsuarioRepetido(Usuarios modelo)
         {
 
-            var respuesta = contextoSingleton.Usuarios.FirstOrDefault(x => x.Mail == modelo.Mail);
-
-            return respuesta;
+            return await contextoSingleton.Usuarios.FirstOrDefaultAsync(x => x.Mail == modelo.Mail);
         }
 
 
@@ -46,8 +51,7 @@ namespace Data.Managers
 
         public async Task<Usuarios> BuscarUsuarioGoogleAsync(LoginDto usuario)
         {
-            var result = await contextoSingleton.Usuarios.FirstOrDefaultAsync(x => x.Mail == usuario.Mail && x.Activo == true);
-            return result;
+            return await contextoSingleton.Usuarios.FirstOrDefaultAsync(x => x.Mail == usuario.Mail && x.Activo == true);
         }
     }
 }

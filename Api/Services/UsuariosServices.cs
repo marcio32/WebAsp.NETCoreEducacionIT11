@@ -27,6 +27,15 @@ namespace Api.Services
             return buscarLista;
         }
 
+        public async Task<Usuarios> BuscarUsuario(string mail)
+        {
+            return await _manager.BuscarUsuario(mail);
+        }
+        public async Task<Usuarios> BuscarUsuario(string mail, string clave)
+        {
+            return await _manager.BuscarUsuario(mail, clave);
+        }
+
         public async Task<bool> Eliminar(UsuariosDto usuarioDto)
         {
             var usuario = new Usuarios();
