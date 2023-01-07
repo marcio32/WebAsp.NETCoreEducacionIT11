@@ -27,7 +27,6 @@ $(document).ready(function () {
             { data: 'stock', title: 'Stock' },
             {
                 data: function (data) {
-                    debugger
                     return data.activo == true ? "Si" : "No";
                 }, title: 'Activo'
             },
@@ -47,7 +46,6 @@ $(document).ready(function () {
 });
 
 function GuardarProducto() {
-    debugger
     $("#productosAddPartial").html("");
 
     $.ajax({
@@ -65,7 +63,6 @@ function GuardarProducto() {
 }
 
 function EditarProducto(data) {
-    debugger
     $("#productosAddPartial").html("");
 
     $.ajax({
@@ -106,7 +103,6 @@ function EliminarProducto(data) {
                         'El producto fue eliminado.',
                         'success'
                     )
-                    debugger
                     tablaProductos.ajax.reload();
                 }
             });

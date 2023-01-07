@@ -29,6 +29,13 @@ namespace Api.Services
 
         public async Task<bool> Guardar(ServiciosDto servicioDto)
         {
+            var servicios = BuscarLista();
+
+            foreach (var item in servicios.Result)
+            {
+                if (item.Nombre == servicioDto.Nombre)
+                    return false;
+            }
             var servicio = new Servicios();
             servicio = servicioDto;
             return await _manager.Guardar(servicio);
