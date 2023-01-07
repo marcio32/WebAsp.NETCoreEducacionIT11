@@ -34,7 +34,6 @@ $(document).ready(function () {
 });
 
 function GuardarServicio() {
-    debugger
     $("#serviciosAddPartial").html("");
 
     $.ajax({
@@ -52,7 +51,6 @@ function GuardarServicio() {
 }
 
 function SincronizarServicio() {
-    debugger
     $("#serviciosAddPartial").html("");
 
     $.ajax({
@@ -71,7 +69,6 @@ function SincronizarServicio() {
 }
 
 function EditarServicio(data) {
-    debugger
     $("#serviciosAddPartial").html("");
 
     $.ajax({
@@ -112,7 +109,6 @@ function EliminarServicio(data) {
                         'El servicio fue eliminado.',
                         'success'
                     )
-                    debugger
                     tablaServicios.ajax.reload();
                 }
             });

@@ -1,7 +1,6 @@
 ﻿var tablaUsuarios;
 
 $(document).ready(function () {
-    debugger
     var token = getCookie("Token");
     var ajaxUrl = getCookie("AjaxUrl");
     tablaUsuarios = $('#usuarios').DataTable({
@@ -43,7 +42,6 @@ $(document).ready(function () {
 });
 
 function GuardarUsuario() {
-    debugger
     $("#usuariosAddPartial").html("");
 
     $.ajax({
@@ -61,7 +59,6 @@ function GuardarUsuario() {
 }
 
 function EditarUsuario(data) {
-    debugger
     $("#usuariosAddPartial").html("");
 
     $.ajax({
@@ -102,7 +99,6 @@ function EliminarUsuario(data) {
                         'El usuario fue eliminado.',
                         'success'
                     )
-                    debugger
                     tablaUsuarios.ajax.reload();
                 }
             });

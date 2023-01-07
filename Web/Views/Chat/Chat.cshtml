@@ -22,7 +22,6 @@
 @section Scripts{
 <script>
     $(document).ready(function(){
-        debugger
         var conexion = new signalR.HubConnectionBuilder().withUrl("/Chat").build();
         conexion.start().then(()=> {conexion.invoke("AgregarAlGrupo", "@Model")});
 
