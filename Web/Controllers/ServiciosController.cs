@@ -46,6 +46,19 @@ namespace Web.Controllers
             return View("~/Views/Servicios/Servicios.cshtml");
         }
 
+        public async Task<IActionResult> SincronizarServicio()
+        {
+            var servicioDto = new ServiciosDto{ Activo = true };
+            var oClient = new MiSoap.Service1Client();
+            servicioDto.Nombre = oClient.GetServicios();
+            var token = HttpContext.Session.GetString("Token");
+            var baseApi = new BaseApi(_httpClient);
+
+            var servicios = await baseApi.PostToApi("Servicios/GuardarServicio", servicioDto, token);
+            var resultado = servicios as OkObjectResult;
+            return Ok(resultado.Value.ToString());
+        }
+
         public IActionResult EliminarServicio([FromBody] ServiciosDto serviciosDto)
         {
             var token = HttpContext.Session.GetString("Token");

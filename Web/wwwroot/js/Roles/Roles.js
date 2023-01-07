@@ -34,7 +34,6 @@ $(document).ready(function () {
 });
 
 function GuardarRol() {
-    debugger
     $("#rolesAddPartial").html("");
 
     $.ajax({
@@ -52,7 +51,6 @@ function GuardarRol() {
 }
 
 function EditarRol(data) {
-    debugger
     $("#rolesAddPartial").html("");
 
     $.ajax({
@@ -93,7 +91,6 @@ function EliminarRol(data) {
                         'El rol fue eliminado.',
                         'success'
                     )
-                    debugger
                     tablaRoles.ajax.reload();
                 }
             });

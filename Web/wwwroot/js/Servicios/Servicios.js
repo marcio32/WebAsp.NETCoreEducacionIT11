@@ -34,7 +34,6 @@ $(document).ready(function () {
 });
 
 function GuardarServicio() {
-    debugger
     $("#serviciosAddPartial").html("");
 
     $.ajax({
@@ -51,8 +50,25 @@ function GuardarServicio() {
     });
 }
 
+function SincronizarServicio() {
+    $("#serviciosAddPartial").html("");
+
+    $.ajax({
+        type: "GET",
+        url: "/Servicios/SincronizarServicio",
+        data: "",
+        dataType: "json",
+        contentType: "application/json",
+        success: function (resultado) {
+            if (resultado == false) {
+                Swal.fire('El servicio ya se encuentra sincronizado');
+            }
+            tablaServicios.ajax.reload();
+        }
+    });
+}
+
 function EditarServicio(data) {
-    debugger
     $("#serviciosAddPartial").html("");
 
     $.ajax({
@@ -93,7 +109,6 @@ function EliminarServicio(data) {
                         'El servicio fue eliminado.',
                         'success'
                     )
-                    debugger
                     tablaServicios.ajax.reload();
                 }
             });

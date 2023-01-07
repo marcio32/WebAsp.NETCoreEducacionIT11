@@ -29,7 +29,7 @@ namespace Web.Controllers
         public IActionResult ProductosAddPartial([FromBody] ProductosDto productoDto)
         {
             var productosViewModel = new ProductosViewModel();
-
+           
             if(productoDto != null)
             {
                 productosViewModel = productoDto;
