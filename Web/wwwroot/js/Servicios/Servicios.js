@@ -51,6 +51,25 @@ function GuardarServicio() {
     });
 }
 
+function SincronizarServicio() {
+    debugger
+    $("#serviciosAddPartial").html("");
+
+    $.ajax({
+        type: "GET",
+        url: "/Servicios/SincronizarServicio",
+        data: "",
+        dataType: "json",
+        contentType: "application/json",
+        success: function (resultado) {
+            if (resultado == false) {
+                Swal.fire('El servicio ya se encuentra sincronizado');
+            }
+            tablaServicios.ajax.reload();
+        }
+    });
+}
+
 function EditarServicio(data) {
     debugger
     $("#serviciosAddPartial").html("");
